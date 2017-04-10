@@ -1,0 +1,415 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5D911A5C863CA16AB39A85C4 /* Pods_BTMonitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08893D3B0EFEDDA4AADDF1D0 /* Pods_BTMonitor.framework */; };
+		BBCD6BE91E99A6F5002F73C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCD6BE81E99A6F5002F73C6 /* AppDelegate.swift */; };
+		BBCD6BEB1E99A6F5002F73C6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCD6BEA1E99A6F5002F73C6 /* ViewController.swift */; };
+		BBCD6BEE1E99A6F5002F73C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBCD6BEC1E99A6F5002F73C6 /* Main.storyboard */; };
+		BBCD6BF11E99A6F5002F73C6 /* BTMonitor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BBCD6BEF1E99A6F5002F73C6 /* BTMonitor.xcdatamodeld */; };
+		BBCD6BF31E99A6F5002F73C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBCD6BF21E99A6F5002F73C6 /* Assets.xcassets */; };
+		BBCD6BF61E99A6F5002F73C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBCD6BF41E99A6F5002F73C6 /* LaunchScreen.storyboard */; };
+		BBCD6BFE1E99A810002F73C6 /* BTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCD6BFD1E99A810002F73C6 /* BTManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		08893D3B0EFEDDA4AADDF1D0 /* Pods_BTMonitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BTMonitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C88EA5CDB5EBD94B3225D68 /* Pods-BTMonitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BTMonitor.release.xcconfig"; path = "Pods/Target Support Files/Pods-BTMonitor/Pods-BTMonitor.release.xcconfig"; sourceTree = "<group>"; };
+		BBCD6BE51E99A6F5002F73C6 /* BTMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BTMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBCD6BE81E99A6F5002F73C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BBCD6BEA1E99A6F5002F73C6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BBCD6BED1E99A6F5002F73C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BBCD6BF01E99A6F5002F73C6 /* BTMonitor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BTMonitor.xcdatamodel; sourceTree = "<group>"; };
+		BBCD6BF21E99A6F5002F73C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BBCD6BF51E99A6F5002F73C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BBCD6BF71E99A6F5002F73C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBCD6BFD1E99A810002F73C6 /* BTManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTManager.swift; sourceTree = "<group>"; };
+		DE8E6F46435DAB80C794BEE2 /* Pods-BTMonitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BTMonitor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BTMonitor/Pods-BTMonitor.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BBCD6BE21E99A6F5002F73C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D911A5C863CA16AB39A85C4 /* Pods_BTMonitor.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BBCD6BDC1E99A6F5002F73C6 = {
+			isa = PBXGroup;
+			children = (
+				BBCD6BE71E99A6F5002F73C6 /* BTMonitor */,
+				BBCD6BE61E99A6F5002F73C6 /* Products */,
+				E756335C24D5E8FB7F155C79 /* Pods */,
+				CCE8E14B0F516DD7D730DD61 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		BBCD6BE61E99A6F5002F73C6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BBCD6BE51E99A6F5002F73C6 /* BTMonitor.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BBCD6BE71E99A6F5002F73C6 /* BTMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				BBCD6BE81E99A6F5002F73C6 /* AppDelegate.swift */,
+				BBCD6BEA1E99A6F5002F73C6 /* ViewController.swift */,
+				BBCD6BFD1E99A810002F73C6 /* BTManager.swift */,
+				BBCD6BEC1E99A6F5002F73C6 /* Main.storyboard */,
+				BBCD6BF21E99A6F5002F73C6 /* Assets.xcassets */,
+				BBCD6BF41E99A6F5002F73C6 /* LaunchScreen.storyboard */,
+				BBCD6BF71E99A6F5002F73C6 /* Info.plist */,
+				BBCD6BEF1E99A6F5002F73C6 /* BTMonitor.xcdatamodeld */,
+			);
+			path = BTMonitor;
+			sourceTree = "<group>";
+		};
+		CCE8E14B0F516DD7D730DD61 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				08893D3B0EFEDDA4AADDF1D0 /* Pods_BTMonitor.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E756335C24D5E8FB7F155C79 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DE8E6F46435DAB80C794BEE2 /* Pods-BTMonitor.debug.xcconfig */,
+				2C88EA5CDB5EBD94B3225D68 /* Pods-BTMonitor.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BBCD6BE41E99A6F5002F73C6 /* BTMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BBCD6BFA1E99A6F5002F73C6 /* Build configuration list for PBXNativeTarget "BTMonitor" */;
+			buildPhases = (
+				BFDBF19269CBDCA360FB8B43 /* [CP] Check Pods Manifest.lock */,
+				BBCD6BE11E99A6F5002F73C6 /* Sources */,
+				BBCD6BE21E99A6F5002F73C6 /* Frameworks */,
+				BBCD6BE31E99A6F5002F73C6 /* Resources */,
+				2F87B6643F3B09B46D2DBBC9 /* [CP] Embed Pods Frameworks */,
+				5AE67453B8259C73B367CB90 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BTMonitor;
+			productName = BTMonitor;
+			productReference = BBCD6BE51E99A6F5002F73C6 /* BTMonitor.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BBCD6BDD1E99A6F5002F73C6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Paul Wilkinson";
+				TargetAttributes = {
+					BBCD6BE41E99A6F5002F73C6 = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = UPP93EJ3U2;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = BBCD6BE01E99A6F5002F73C6 /* Build configuration list for PBXProject "BTMonitor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BBCD6BDC1E99A6F5002F73C6;
+			productRefGroup = BBCD6BE61E99A6F5002F73C6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BBCD6BE41E99A6F5002F73C6 /* BTMonitor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BBCD6BE31E99A6F5002F73C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBCD6BF61E99A6F5002F73C6 /* LaunchScreen.storyboard in Resources */,
+				BBCD6BF31E99A6F5002F73C6 /* Assets.xcassets in Resources */,
+				BBCD6BEE1E99A6F5002F73C6 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2F87B6643F3B09B46D2DBBC9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BTMonitor/Pods-BTMonitor-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5AE67453B8259C73B367CB90 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BTMonitor/Pods-BTMonitor-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BFDBF19269CBDCA360FB8B43 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BBCD6BE11E99A6F5002F73C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBCD6BF11E99A6F5002F73C6 /* BTMonitor.xcdatamodeld in Sources */,
+				BBCD6BEB1E99A6F5002F73C6 /* ViewController.swift in Sources */,
+				BBCD6BE91E99A6F5002F73C6 /* AppDelegate.swift in Sources */,
+				BBCD6BFE1E99A810002F73C6 /* BTManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BBCD6BEC1E99A6F5002F73C6 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BBCD6BED1E99A6F5002F73C6 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BBCD6BF41E99A6F5002F73C6 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BBCD6BF51E99A6F5002F73C6 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BBCD6BF81E99A6F5002F73C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BBCD6BF91E99A6F5002F73C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BBCD6BFB1E99A6F5002F73C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE8E6F46435DAB80C794BEE2 /* Pods-BTMonitor.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = UPP93EJ3U2;
+				INFOPLIST_FILE = BTMonitor/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.wilko.BTMonitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		BBCD6BFC1E99A6F5002F73C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C88EA5CDB5EBD94B3225D68 /* Pods-BTMonitor.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = UPP93EJ3U2;
+				INFOPLIST_FILE = BTMonitor/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.wilko.BTMonitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BBCD6BE01E99A6F5002F73C6 /* Build configuration list for PBXProject "BTMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBCD6BF81E99A6F5002F73C6 /* Debug */,
+				BBCD6BF91E99A6F5002F73C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BBCD6BFA1E99A6F5002F73C6 /* Build configuration list for PBXNativeTarget "BTMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBCD6BFB1E99A6F5002F73C6 /* Debug */,
+				BBCD6BFC1E99A6F5002F73C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BBCD6BEF1E99A6F5002F73C6 /* BTMonitor.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BBCD6BF01E99A6F5002F73C6 /* BTMonitor.xcdatamodel */,
+			);
+			currentVersion = BBCD6BF01E99A6F5002F73C6 /* BTMonitor.xcdatamodel */;
+			path = BTMonitor.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = BBCD6BDD1E99A6F5002F73C6 /* Project object */;
+}
