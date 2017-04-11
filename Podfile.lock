@@ -1,12 +1,22 @@
 PODS:
   - BRYXBanner (0.7.2)
+  - ObjcExceptionBridging (1.0.1):
+    - ObjcExceptionBridging/ObjcExceptionBridging (= 1.0.1)
+  - ObjcExceptionBridging/ObjcExceptionBridging (1.0.1)
+  - XCGLogger (5.0.1):
+    - XCGLogger/Core (= 5.0.1)
+  - XCGLogger/Core (5.0.1):
+    - ObjcExceptionBridging
 
 DEPENDENCIES:
   - BRYXBanner
+  - XCGLogger
 
 SPEC CHECKSUMS:
   BRYXBanner: ed407a56c53f2add0aaa16f810062eac48d802cf
+  ObjcExceptionBridging: c30e00eb3700467e695faeea30e26e18bd445001
+  XCGLogger: 0b43697155d41e4a1b15fc776f319c2141646b09
 
-PODFILE CHECKSUM: e83140e2438561dcccfc456f2dff5e082f4d1570
+PODFILE CHECKSUM: 2f06bfb20f811e155a3a26c2dbb2dd1111eabf6e
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1.rc.1

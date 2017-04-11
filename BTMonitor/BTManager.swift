@@ -9,20 +9,27 @@
 import Foundation
 import UIKit
 import CoreBluetooth
+import XCGLogger
 
 class BTManager: NSObject {
-static let sharedManager = BTManager()
+    static let sharedManager = BTManager()
     
     static let connectionNotification = NSNotification.Name("CONNECTION_NOTIFICATION")
     
     var connectedState: Bool {
-        return self.connectedPeripheral != nil
+        return self.connectedPeripherals.count > 0
     }
     
+    var connectedDeviceCount: Int {
+        return self.connectedPeripherals.count
+    }
+    
+    var reconnectMode: Bool = false
+    
     fileprivate var cbCentral: CBCentralManager!
-    fileprivate var connectedPeripheral: CBPeripheral?
-    fileprivate var targetPeripheral: CBPeripheral?
-    fileprivate var characteristic: CBCharacteristic?
+    fileprivate var connectedPeripherals = Set<CBPeripheral>()
+    fileprivate var targetPeripherals = Set<CBPeripheral>()
+    fileprivate var characteristics = [CBPeripheral:CBCharacteristic]()
     
     private let queue = DispatchQueue(label: "BTQueue")
     
@@ -34,22 +41,40 @@ static let sharedManager = BTManager()
         super.init()
         
         cbCentral = CBCentralManager(delegate: self, queue: queue, options: [CBCentralManagerOptionRestoreIdentifierKey: " Central "])
-
+        
     }
     
     func startScan() {
-        
+        log?.info("Starting BT scan")
         self.cbCentral.scanForPeripherals(withServices: [serviceUUID], options: nil)
-        
+    }
+    
+    func stopScan() {
+        log?.info("Stopping BT scan")
+        self.cbCentral.stopScan()
     }
     
     func sendConnectionNotification() {
         let nc = NotificationCenter.default
         
-        nc.post(name: BTManager.connectionNotification, object: self, userInfo: ["STATE":self.connectedState])
+        nc.post(name: BTManager.connectionNotification, object: self, userInfo: ["STATE":self.connectedState,"CONNECTION":true])
     }
- 
-  
+    
+    func sendDisconnectionNotification() {
+        let nc = NotificationCenter.default
+        
+        nc.post(name: BTManager.connectionNotification, object: self, userInfo: ["STATE":self.connectedState,"CONNECTION":false])
+    }
+    
+    var log:XCGLogger?  {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            return appDelegate.log
+        } else {
+            return nil
+        }
+    }
+    
+    
 }
 
 // MARK: - CBCentralManagerDelegate
@@ -63,7 +88,7 @@ extension BTManager: CBCentralManagerDelegate {
         case .poweredOn:
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             DispatchQueue.main.async {
-                appDelegate.sendLocalNotification(title: "Scanning", body: "Starting Bluetooth Scan")
+                appDelegate.sendLocalNotification(title: "Scanning", body: "Starting Bluetooth Scan", color: .green)
             }
             self.startScan()
             
@@ -79,39 +104,57 @@ extension BTManager: CBCentralManagerDelegate {
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        print("Discovered peripheral \(peripheral.identifier)")
-        self.targetPeripheral = peripheral
+        log?.info("Discovered peripheral \(peripheral.identifier)")
+        self.targetPeripherals.insert(peripheral)
+        log?.info("Initiating connection to \(peripheral)")
         central.connect(peripheral, options: nil)
-
+        
     }
     
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        print("Connected")
-        self.connectedPeripheral = peripheral
+        
+        log?.info("Connected to \(peripheral)")
+        self.connectedPeripherals.insert(peripheral)
         peripheral.delegate = self
-        peripheral.discoverServices([serviceUUID])
-        central.stopScan()
+        peripheral.discoverServices([])
         self.sendConnectionNotification()
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        print("Disconnected")
-        self.connectedPeripheral = nil
-        self.characteristic = nil
-        self.startScan()
-     /*   if let target = self.targetPeripheral {
-            central.connect(target, options: nil)
-        }*/
-        self.sendConnectionNotification()
+        
+        
+        if let error = error {
+            log?.error("Disconnected from \(peripheral) with error: \(error)")
+            
+        } else {
+            log?.warning("Disconnected from \(peripheral)")
+        }
+        
+        self.connectedPeripherals.remove(peripheral)
+        self.characteristics[peripheral] = nil
+        
+        if  self.targetPeripherals.contains(peripheral) && reconnectMode {
+            
+            log?.info("Initiating reconnection to \(peripheral)")
+            central.connect(peripheral, options: nil)
+        } else if !reconnectMode {
+            self.stopScan()
+            self.startScan()
+        }
+        
+        self.sendDisconnectionNotification()
     }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        print("Failed to connect")
-        self.connectedPeripheral = nil
-        self.characteristic = nil
-        self.startScan()
-        self.sendConnectionNotification()
+        
+        if let error = error {
+            log?.error("Failed to connect with error:\(error)")
+        } else {
+            log?.error("Failed to connect")
+        }
+        
+        self.sendDisconnectionNotification()
     }
     
     func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
@@ -119,10 +162,10 @@ extension BTManager: CBCentralManagerDelegate {
             
             for peripheral in peripherals {
                 
-                print("Restored peripheral \(peripheral)")
+                log?.info("Restored peripheral \(peripheral)")
                 if peripheral.state == .connected {
-                    self.targetPeripheral = peripheral
-                    self.connectedPeripheral = peripheral
+                    self.targetPeripherals.insert(peripheral)
+                    self.connectedPeripherals.insert(peripheral)
                     self.sendConnectionNotification()
                 }
             }
@@ -136,18 +179,22 @@ extension BTManager: CBCentralManagerDelegate {
 
 extension BTManager: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        print("Discovered services")
+        log?.info("Discovered services")
         for service in peripheral.services ?? [] {
             peripheral.discoverCharacteristics([characteristicUUID], for: service)
         }
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        print("Discovered characteristics")
+        log?.info("Discovered characteristics")
         for characteristic in service.characteristics ?? [] {
             print(characteristic)
-            peripheral.setNotifyValue(true, for: characteristic)
+            if characteristic.uuid == self.characteristicUUID {
+                self.characteristics[peripheral] = characteristic
+                peripheral.setNotifyValue(true, for: characteristic)
+            }
         }
+        
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -156,5 +203,24 @@ extension BTManager: CBPeripheralDelegate {
             data.copyBytes(to: &values, count: data.count)
             print("\(values[0])")
         }
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
+        
+        log?.debug("Services changed")
+        
+        /*  if targetPeripherals.contains(peripheral) {
+         for service in invalidatedServices {
+         if service.uuid == serviceUUID {
+         if self.connectedPeripherals.contains(peripheral) {
+         self.targetPeripherals.remove(peripheral)
+         self.cbCentral.cancelPeripheralConnection(peripheral)
+         }
+         }
+         }
+         } else {
+         self.targetPeripherals.insert(peripheral)
+         self.cbCentral.connect(peripheral, options: nil)
+         }*/
     }
 }

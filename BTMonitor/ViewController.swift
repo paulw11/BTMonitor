@@ -11,7 +11,8 @@ import CoreData
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var statusView: UIView!
+    @IBOutlet weak var deviceCount: UILabel!
+    @IBOutlet weak var connectSwitch: UISwitch!
     @IBOutlet weak var tableView: UITableView!
     
     fileprivate let dateFormatter: DateFormatter = {
@@ -23,6 +24,8 @@ class ViewController: UIViewController {
     
     fileprivate var fetchedResultsController: NSFetchedResultsController<Connection>!
     
+    fileprivate var btManager = BTManager.sharedManager
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -30,7 +33,8 @@ class ViewController: UIViewController {
         let nc = NotificationCenter.default
         nc.addObserver(forName: BTManager.connectionNotification, object: nil, queue: OperationQueue.main) { (notification) in
             if let status = notification.userInfo?["STATE"] as? Bool {
-                self.statusView.backgroundColor = status ? UIColor.green:UIColor.red
+                self.deviceCount.textColor = status ? UIColor.green:UIColor.red
+                self.deviceCount.text = "\(self.btManager.connectedDeviceCount)"
             }
         }
         
@@ -39,8 +43,9 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let connectionState = BTManager.sharedManager.connectedState
-        self.statusView.backgroundColor = connectionState ? UIColor.green:UIColor.red
+        self.deviceCount.textColor = self.btManager.connectedState ? UIColor.green:UIColor.red
+        self.deviceCount.text = "\(self.btManager.connectedDeviceCount)"
+        self.connectSwitch.isOn = self.btManager.reconnectMode
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,7 +59,7 @@ class ViewController: UIViewController {
         
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Connection>(entityName: "Connection")
-        let dateDescriptor = NSSortDescriptor(key: "connectTime", ascending: false)
+        let dateDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
         
         fetchRequest.sortDescriptors = [dateDescriptor]
         
@@ -63,6 +68,11 @@ class ViewController: UIViewController {
         
         try! fetchedResultsController.performFetch()
         tableView.reloadData()
+    }
+    
+    @IBAction func switched(_ sender: UISwitch) {
+        self.btManager.reconnectMode = sender.isOn
+        UserDefaults.standard.set(sender.isOn, forKey: "ReconnectMode")
     }
 
 }
@@ -83,24 +93,15 @@ extension ViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
 
         let connection = fetchedResultsController.object(at: indexPath)
+
+        var timeStamp = ""
         
-        var startTime = ""
-        
-        if let startDate = connection.connectTime as Date? {
-            startTime = self.dateFormatter.string(from: startDate)
-        }
-        
-        var endTime = ""
-        
-        if let endDate = connection.disconnectTime as Date? {
-            endTime = self.dateFormatter.string(from: endDate)
+        if let stampDate = connection.timeStamp as Date? {
+            timeStamp = self.dateFormatter.string(from: stampDate)
         }
         
 
-            cell.detailTextLabel?.text = "\(connection.bgTime)"
-    
-
-        cell.textLabel?.text = "\(startTime) - \(endTime)"
+        cell.textLabel?.text = "\(connection.event!) - \(timeStamp)"
         
         return cell
     }

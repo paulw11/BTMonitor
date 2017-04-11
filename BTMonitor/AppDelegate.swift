@@ -11,82 +11,96 @@ import CoreData
 import CoreBluetooth
 import UserNotifications
 import BRYXBanner
+import  XCGLogger
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
+    let log: XCGLogger = {
+        // Setup XCGLogger
+        let log = XCGLogger.default
+        
+        #if USE_NSLOG // Set via Build Settings, under Other Swift Flags
+            log.remove(destinationWithIdentifier: XCGLogger.Constants.baseConsoleDestinationIdentifier)
+            log.add(destination: AppleSystemLogDestination(identifier: XCGLogger.Constants.systemLogDestinationIdentifier))
+            log.logAppDetails()
+        #else
+            let urls = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
+            let cacheDirectory = urls.last!
+            let logPath: URL = cacheDirectory.appendingPathComponent("XCGLogger_Log.txt")
+            
+            let fileDestination = AutoRotatingFileDestination(owner: nil, writeToFile: logPath, identifier: "fileLogger", shouldAppend: true, appendMarker: "------", maxFileSize: 100000, archiveSuffixDateFormatter: nil)
+            
+            log.setup(level: .debug, showThreadName: true, showLevel: true, showFileNames: true, showLineNumbers: true, writeToFile: nil)
+        
+            
+            // Add colour (using the ANSI format) to our file log, you can see the colour when `cat`ing or `tail`ing the file in Terminal on macOS
+            // This is mostly useful when testing in the simulator, or if you have the app sending you log files remotely
+            
+            log.add(destination: fileDestination)
+        #endif
+        
+        return log
+    }()
+    
     var btManager: BTManager!
     let center = UNUserNotificationCenter.current()
     
-    private var connection: Connection?
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        print("Starting")
         // Override point for customization after application launch.
+        let reconnectMode = UserDefaults.standard.bool(forKey: "ReconnectMode")
         
         if let centraloption = launchOptions?[UIApplicationLaunchOptionsKey.bluetoothCentrals] {
-            self.btManager = BTManager.sharedManager
             self.sendLocalNotification(title: "Bluetooth restored", body: "Restoring \(centraloption)")
         } else {
             self.sendLocalNotification(title: "Standard launch", body: "Standard launch")
         }
         
-        if self.btManager == nil {
-             self.btManager = BTManager.sharedManager
-        }
-        
+        self.btManager = BTManager.sharedManager
+        btManager.reconnectMode = reconnectMode
         
         
         let options: UNAuthorizationOptions = [.alert, .sound];
         center.requestAuthorization(options: options) {
             (granted, error) in
             if !granted {
-                print("Something went wrong")
+                self.log.error("Something went wrong")
             }
         }
         
         let nc = NotificationCenter.default
         
         nc.addObserver(forName: BTManager.connectionNotification, object: nil, queue: OperationQueue.main) { (notification) in
-            if let state = notification.userInfo?["STATE"] as? Bool {
+            if let state = notification.userInfo?["CONNECTION"] as? Bool {
                 
-                if state {
-                    let newConnection = Connection(context: self.persistentContainer.viewContext)
-                    newConnection.connectTime = Date() as NSDate
-                    self.connection = newConnection
-                    newConnection.bgTime = UIApplication.shared.backgroundTimeRemaining
-                } else {
-                    if let currentConnection = self.connection {
-                        currentConnection.disconnectTime = Date() as NSDate
-                        currentConnection.bgTime = UIApplication.shared.backgroundTimeRemaining
-                    } else {
-                        let newConnection =  Connection(context: self.persistentContainer.viewContext)
-                        newConnection.disconnectTime = Date() as NSDate
-                        newConnection.bgTime = UIApplication.shared.backgroundTimeRemaining
-                    }
-                }
+                let event = state ? "Connected":"Disconnected"
+                let newConnection = Connection(context: self.persistentContainer.viewContext)
+                newConnection.event = event
+                newConnection.timeStamp = Date() as NSDate
                 
                 self.saveContext()
                 
                 
-                
-                self.sendLocalNotification(title: "Bluetooth connection change", body: state ? "Peripheral is now connected":"Peripheral is now disconnected")
-                
-                
+                self.sendLocalNotification(title: "Bluetooth connection change", body: state ? "A peripheral is now connected":"A peripheral is now disconnected")
             }
-            
         }
         
         return true
     }
     
-    func sendLocalNotification(title: String, body: String) {
+    func sendLocalNotification(title: String, body: String, color: UIColor = .blue) {
+        
+        log.info("\(title) \(body)")
+        
+        
         if UIApplication.shared.applicationState  == .background {
             let content = UNMutableNotificationContent()
             content.title = title
             content.body = body
-            content.sound = UNNotificationSound.default()
+           // content.sound = UNNotificationSound.default()
             let identifier = title+body
             let request = UNNotificationRequest(identifier: identifier,
                                                 content: content, trigger: nil)
@@ -97,7 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }) } else {
             
             if topWindow() != nil {
-                self.showBanner(title: title, body: body, backgroundColor: .blue)
+                self.showBanner(title: title, body: body, backgroundColor: color)
             } else {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                     self.showBanner(title: title, body:body,backgroundColor: .blue)
@@ -129,10 +143,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        log.debug("Entered background")
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        log.debug("Entering foreground")
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -142,6 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
+        log.info("Application will terminate")
         self.saveContext()
     }
     
